@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/moviedb?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: l529673457
+    url: jdbc:mysql://193.112.44.141:3306/moviedb?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: movie
+    password: movie
   jpa:
     hibernate:
       ddl-auto: update
