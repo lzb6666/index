@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>检索</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+
+</head>
+<body>
+<form class="layui-form" action="" id="search-form">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">范围</label>
+        <div class="layui-input-inline">
+        <select name="content" lay-verify="required">
+    <option value="all">全部</option>
+    <option value="name">名称</option>
+    <option value="director">导演</option>
+    <option value="type">类型</option>
+    <option value="actors">演员</option>
+        </select>
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" name="search" required  lay-verify="required" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+        </div>
+    </div>
+</form>
+<div id="result">
+
+</div>
+<div id="tableContainer">
+    <table class="layui-table" lay-filter="demo" id="movies"></table>
+    <div id="pager"></div>
+</div>
+<script type="text/javascript" src="../layui/layui.all.js"></script>
+<script type="text/javascript" src="../jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../jquery/jquery.form.js"></script>
+<script>
+    var windowH = $(window).height();
+    var windowW = $(window).width();
+    $("#search-form").ajaxForm({
+            url: "search",
+            type: "post",
+            success: function(data) {
+                var list = data.studentList;
+                drawRecordTable(list);
+            }
+    });
+
+    function drawRecordTable(data) {
+        layui.use('table', function() {
+            var table = layui.table;
+            table.render({
+                elem: '#movies',
+                width: 0.60 * windowW,
+                height: 0.50 * windowH,
+                data: data,
+                initSort: {
+                    field: 'ranking', //排序字段，对应 cols 设定的各字段名
+                    type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+                },
+                id: 'testId',
+                even: true,
+                cols: [
+                    [{
+                        field: 'ranking',
+                        title: '排名',
+                        width: 0.05* windowW,
+                        align: "center",
+                        sort: true
+                    },
+                        {
+                            field: 'name',
+                            title: '名称',
+                            width: 0.055* windowW,
+                            align: 'center',
+                            sort: true
+                        },
+                        {
+                            field: 'director',
+                            title: '导演',
+                            align: 'center',
+                            width: 0.08 * windowW,
+                            sort: true
+                        },
+                        {
+                            field: 'score',
+                            title: '评分',
+                            align: 'center',
+                            width: 0.08 * windowW,
+                            sort: true
+                        },
+                        {
+                            field: 'assessNum',
+                            title: '评分人数',
+                            align: 'center',
+                            width: 0.08 * windowW,
+                            sort: true
+                        },
+                        {
+                            field: 'type',
+                            title: '类型',
+                            align: 'center',
+                            width: 0.2 * windowW,
+                            sort: false
+                        },
+                        {
+                            field: 'actors',
+                            title: '主演',
+                            align: "center",
+                            width: 0.05 * windowW,
+                            sort: true
+                        },
+                        {
+                            field: 'date',
+                            title: '上映日期',
+                            align: "center",
+                            width: 0.05 * windowW,
+                            sort: true
+                        }
+                    ]
+                ]
+            });
+            table.on('checkbox(demo)', function(obj) {
+                console.log(obj);
+            });
+        });
+    };
+    drawRecordTable();
+</script>
+</body>
+</html>
